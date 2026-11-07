@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Huella Segura La Paz - Engine EDO</title>
     
     <!-- Google Fonts: Inter -->
@@ -23,7 +23,7 @@
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -37,7 +37,6 @@
             color: var(--text-main);
         }
 
-        /* Layout Principal */
         #app-container {
             display: flex;
             width: 100%;
@@ -45,7 +44,7 @@
             position: relative;
         }
 
-        /* Panel Lateral */
+        /* Panel Lateral escritorio */
         #sidebar {
             width: 400px;
             min-width: 350px;
@@ -55,58 +54,44 @@
             padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             overflow-y: auto;
             z-index: 1000;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, height 0.3s ease;
         }
 
         /* Header Minimalista */
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .brand-icon {
-            font-size: 1.6rem;
-            background: #eeeff2;
-            padding: 8px;
-            border-radius: 10px;
-        }
-        h1 { font-size: 1.25rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; }
-        .subtitle { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand-icon { font-size: 1.5rem; background: #eef2ff; padding: 8px; border-radius: 10px; }
+        h1 { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; }
+        .subtitle { font-size: 0.78rem; color: var(--text-muted); }
 
         /* Formularios */
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 0.82rem; font-weight: 600; color: #334155; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 0.8rem; font-weight: 600; color: #334155; }
         
         select, input[type="number"] {
-            padding: 10px 14px;
+            padding: 9px 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             background-color: #ffffff;
             color: var(--text-main);
             outline: none;
-            transition: all 0.2s ease;
-        }
-        select:focus, input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
         .slider-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background: #f1f5f9;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
         }
         input[type="range"] { flex: 1; accent-color: var(--primary); cursor: pointer; }
 
-        /* Botón de Acción */
+        /* Botón principal */
         button.btn-primary {
             background-color: var(--primary);
             color: white;
@@ -114,102 +99,146 @@
             padding: 12px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             cursor: pointer;
-            transition: background 0.2s ease, transform 0.1s ease;
             box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
         }
-        button.btn-primary:hover { background-color: var(--primary-hover); }
-        button.btn-primary:active { transform: scale(0.98); }
 
-        /* Cards de Resultados */
+        /* Cards */
         .card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 16px;
+            padding: 14px;
             box-shadow: var(--shadow);
         }
         .card-header {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
-        .res-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.82rem;
-            padding: 4px 0;
-            color: var(--text-muted);
-        }
+        .res-row { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 3px 0; color: var(--text-muted); }
         .val-highlight { font-weight: 700; color: var(--primary); }
 
-        /* Formula Card */
         .formula-box {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
+            font-family: monospace;
+            font-size: 0.73rem;
             background: #f8fafc;
-            padding: 8px;
+            padding: 6px 8px;
             border-radius: 6px;
             border-left: 3px solid var(--primary);
-            margin-top: 6px;
+            margin-top: 4px;
             word-break: break-all;
         }
 
         /* Mapa */
-        #map { flex: 1; height: 100%; width: 100%; }
+        #map { flex: 1; height: 100%; width: 100%; z-index: 1; }
 
-        /* Toast / Mensaje de Bienvenida */
+        /* Botón de toggle solo para móviles */
+        #mobile-toggle-btn {
+            display: none;
+        }
+
+        /* Toast / Notificación */
         #toast {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
             background: #ffffff;
             color: var(--text-main);
-            padding: 14px 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            padding: 12px 18px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 12px;
-            z-index: 2000;
-            transform: translateY(-50px);
+            gap: 10px;
+            z-index: 9999;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            width: max-content;
+            max-width: 90vw;
         }
-        #toast.show { transform: translateY(0); opacity: 1; }
-        .toast-icon { font-size: 1.4rem; }
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
 
-        /* Adaptabilidad Móvil (Responsive Design) */
+        /* ------------------------------------------------------------- */
+        /* ADAPTABILIDAD MÓVIL (MOBILE-FIRST POLISH) */
+        /* ------------------------------------------------------------- */
         @media (max-width: 768px) {
-            #app-container { flex-direction: column-reverse; }
             #sidebar {
-                width: 100%;
-                min-width: 100%;
-                height: 55vh;
-                border-right: none;
-                border-top: 1px solid var(--border-color);
-                border-radius: 20px 20px 0 0;
-                position: absolute;
+                position: fixed;
                 bottom: 0;
                 left: 0;
-                box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+                width: 100%;
+                min-width: 100%;
+                height: 60vh;
+                border-right: none;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                box-shadow: 0 -6px 24px rgba(0,0,0,0.12);
+                z-index: 2000;
+                padding: 16px 20px 24px 20px;
             }
-            #map { height: 45vh; }
-            #toast { top: 10px; right: 10px; left: 10px; font-size: 0.85rem; }
+
+            #sidebar.collapsed {
+                transform: translateY(calc(100% - 60px));
+            }
+
+            #mobile-toggle-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                padding: 6px 0;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+            }
+
+            .handle-bar {
+                width: 40px;
+                height: 5px;
+                background-color: #cbd5e1;
+                border-radius: 10px;
+            }
+
+            #map {
+                height: 100vh;
+            }
+
+            #toast {
+                top: 20px;
+                font-size: 0.8rem;
+                padding: 10px 16px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div id="app-container">
-        <!-- Panel de Control Lateral -->
+        <!-- Toast Notificación (Z-Index Máximo) -->
+        <div id="toast">
+            <span style="font-size: 1.2rem;">🐾</span>
+            <div>
+                <strong style="font-size: 0.85rem; color: #1e293b;">Huella Segura está contigo</strong>
+                <p style="font-size: 0.75rem; color: #64748b;">Mueve el mapa o ajusta el tiempo de búsqueda.</p>
+            </div>
+        </div>
+
+        <!-- Panel Lateral -->
         <div id="sidebar">
+            <button id="mobile-toggle-btn" aria-label="Deslizar panel">
+                <div class="handle-bar"></div>
+            </button>
+
             <div class="brand">
                 <span class="brand-icon">🐾</span>
                 <div>
@@ -248,7 +277,7 @@
                 <label for="tiempo">Tiempo Transcurrido (Horas)</label>
                 <div class="slider-container">
                     <input type="range" id="tiempo" min="0.1" max="6.0" step="0.1" value="1.5">
-                    <input type="number" id="tiempo-num" min="0.01" max="24.0" step="0.01" value="1.5" style="width: 70px; text-align: center;">
+                    <input type="number" id="tiempo-num" min="0.01" max="24.0" step="0.01" value="1.5" style="width: 65px; text-align: center;">
                 </div>
             </div>
 
@@ -258,7 +287,7 @@
             <div class="card">
                 <div class="card-header">
                     <span>Resultados del Motor</span>
-                    <span style="font-size: 0.75rem; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 12px;">En Vivo</span>
+                    <span style="font-size: 0.7rem; color: #16a34a; background: #dcfce7; padding: 2px 6px; border-radius: 10px;">En Vivo</span>
                 </div>
                 <div class="res-row"><span>Solución Analítica:</span> <span id="res-analitico" class="val-highlight">0.00 km</span></div>
                 <div class="res-row"><span>Aproximación Heun (Ord 2):</span> <span id="res-heun" class="val-highlight">0.00 km</span></div>
@@ -266,22 +295,19 @@
                 <div class="res-row"><span>Error Relativo RK4:</span> <span id="res-err-rk4" style="color: #16a34a; font-weight: 700;">0.00 %</span></div>
             </div>
 
-            <!-- Card de Fórmulas y Evaluación En Vivo -->
+            <!-- Card de Fórmulas -->
             <div class="card">
-                <div class="card-header">Fórmulas y Evaluación Numérica</div>
-                
-                <div style="margin-bottom: 10px;">
-                    <span style="font-size: 0.78rem; font-weight: 600; color: #475569;">Analítica Exacta</span>
+                <div class="card-header">Fórmulas y Evaluación</div>
+                <div style="margin-bottom: 8px;">
+                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Analítica Exacta</span>
                     <div id="formula-analitica-eval" class="formula-box">r(t) = ...</div>
                 </div>
-
-                <div style="margin-bottom: 10px;">
-                    <span style="font-size: 0.78rem; font-weight: 600; color: #475569;">Heun (Predictor-Corrector)</span>
+                <div style="margin-bottom: 8px;">
+                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Heun (Predictor-Corrector)</span>
                     <div id="formula-heun-eval" class="formula-box" style="border-left-color: #ef4444;">r_ult = ...</div>
                 </div>
-
                 <div>
-                    <span style="font-size: 0.78rem; font-weight: 600; color: #475569;">Runge-Kutta (RK4)</span>
+                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Runge-Kutta (RK4)</span>
                     <div id="formula-rk4-eval" class="formula-box" style="border-left-color: #22c55e;">r_ult = ...</div>
                 </div>
             </div>
@@ -289,15 +315,6 @@
 
         <!-- Mapa -->
         <div id="map"></div>
-
-        <!-- Toast de Bienvenida -->
-        <div id="toast">
-            <span class="toast-icon">🐶</span>
-            <div>
-                <strong style="font-size: 0.9rem;">Huella Segura está contigo</strong>
-                <p style="font-size: 0.8rem; color: var(--text-muted);">Mueve el marcador o ajusta el tiempo para definir la búsqueda.</p>
-            </div>
-        </div>
     </div>
 
     <!-- JS de Leaflet -->

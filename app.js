@@ -5,10 +5,9 @@ const latInicial = -16.5100;
 const lngInicial = -68.1300;
 
 const map = L.map('map', {
-    zoomControl: false // Ocultar control por defecto para UI más limpia
+    zoomControl: false
 }).setView([latInicial, lngInicial], 14);
 
-// Control de Zoom reposicionado a la derecha
 L.control.zoom({ position: 'topright' }).addTo(map);
 
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -105,7 +104,7 @@ function actualizarSimulacion() {
 
     const errRK4 = rAnalitico > 0 ? (Math.abs(rAnalitico - rRK4) / rAnalitico) * 100 : 0;
 
-    // Actualizar Panel
+    // Actualizar Valores UI
     document.getElementById('res-analitico').innerText = rAnalitico.toFixed(3) + " km";
     document.getElementById('res-heun').innerText = rHeun.toFixed(3) + " km";
     document.getElementById('res-rk4').innerText = rRK4.toFixed(3) + " km";
@@ -140,14 +139,25 @@ function actualizarSimulacion() {
 }
 
 // ------------------------------------------------------------------
-// TOAST DE BIENVENIDA Y EVENTOS
+// TOAST DE BIENVENIDA Y LÓGICA MÓVIL
 // ------------------------------------------------------------------
 function mostrarToastBienvenida() {
     const toast = document.getElementById('toast');
     setTimeout(() => {
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 4000); // Se oculta a los 4 seg
-    }, 500);
+        setTimeout(() => toast.classList.remove('show'), 4500);
+    }, 600);
+}
+
+// Colapsar / Expandir panel en celulares
+const sidebar = document.getElementById('sidebar');
+const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
+
+if (mobileToggleBtn) {
+    mobileToggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        setTimeout(() => map.invalidateSize(), 300); // Reajustar mapa
+    });
 }
 
 const sliderTiempo = document.getElementById('tiempo');
