@@ -67,5 +67,5 @@ No requiere instalación de Node.js, compiladores ni servidores locales.
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [https://github.com/TU_USUARIO/huella-segura-lapaz.git](https://github.com/TU_USUARIO/huella-segura-lapaz.git)
+   git clone [https://github.com/TU_USUARIO/LenzAbadAlanocaOjeda-huella-segura-lapaz.git](https://github.com/TU_USUARIO/huella-segura-lapaz.git)
    cd huella-segura-lapaz
