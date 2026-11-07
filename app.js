@@ -104,11 +104,15 @@ function actualizarSimulacion() {
 
     const errRK4 = rAnalitico > 0 ? (Math.abs(rAnalitico - rRK4) / rAnalitico) * 100 : 0;
 
-    // Actualizar Valores UI
+    // Actualizar Panel
     document.getElementById('res-analitico').innerText = rAnalitico.toFixed(3) + " km";
     document.getElementById('res-heun').innerText = rHeun.toFixed(3) + " km";
     document.getElementById('res-rk4').innerText = rRK4.toFixed(3) + " km";
     document.getElementById('res-err-rk4').innerText = errRK4.toFixed(4) + " %";
+
+    // Actualizar Badge móvil compacto
+    const mbBadge = document.getElementById('mb-radio-val');
+    if (mbBadge) mbBadge.innerText = rRK4.toFixed(2) + " km";
 
     // Eval Fórmulas
     const vH = resAnalitico.vHoriz.toFixed(2);
@@ -139,24 +143,32 @@ function actualizarSimulacion() {
 }
 
 // ------------------------------------------------------------------
-// TOAST DE BIENVENIDA Y LÓGICA MÓVIL
+// TOAST BIENVENIDA & LÓGICA DE PANELS MÓVIL
 // ------------------------------------------------------------------
 function mostrarToastBienvenida() {
     const toast = document.getElementById('toast');
     setTimeout(() => {
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 4500);
+        setTimeout(() => toast.classList.remove('show'), 4000);
     }, 600);
 }
 
-// Colapsar / Expandir panel en celulares
 const sidebar = document.getElementById('sidebar');
 const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
+const mobileSummary = document.getElementById('mobile-summary');
+
+function toggleMobileSidebar() {
+    sidebar.classList.toggle('collapsed');
+    setTimeout(() => map.invalidateSize(), 350);
+}
 
 if (mobileToggleBtn) {
-    mobileToggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        setTimeout(() => map.invalidateSize(), 300); // Reajustar mapa
+    mobileToggleBtn.addEventListener('click', toggleMobileSidebar);
+}
+
+if (mobileSummary) {
+    mobileSummary.addEventListener('click', () => {
+        toggleMobileSidebar();
     });
 }
 

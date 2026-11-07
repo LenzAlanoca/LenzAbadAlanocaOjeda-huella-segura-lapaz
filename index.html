@@ -22,8 +22,8 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --radius: 12px;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 14px;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -44,38 +44,61 @@
             position: relative;
         }
 
-        /* Panel Lateral escritorio */
+        /* Panel Escritorio */
         #sidebar {
-            width: 400px;
-            min-width: 350px;
+            width: 390px;
+            min-width: 340px;
             height: 100%;
             background: var(--card-bg);
             border-right: 1px solid var(--border-color);
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             overflow-y: auto;
             z-index: 1000;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, height 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Barra resumen movil */
+        .mobile-bar-summary {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 2px 4px 10px 4px;
+            cursor: pointer;
+        }
+
+        .mobile-badge {
+            background: #eef2ff;
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #c7d2fe;
         }
 
         /* Header Minimalista */
         .brand { display: flex; align-items: center; gap: 10px; }
-        .brand-icon { font-size: 1.5rem; background: #eef2ff; padding: 8px; border-radius: 10px; }
-        h1 { font-size: 1.2rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; }
-        .subtitle { font-size: 0.78rem; color: var(--text-muted); }
+        .brand-icon { font-size: 1.4rem; background: #eef2ff; padding: 6px 10px; border-radius: 10px; }
+        h1 { font-size: 1.15rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; }
+        .subtitle { font-size: 0.75rem; color: var(--text-muted); }
 
         /* Formularios */
-        .form-group { display: flex; flex-direction: column; gap: 5px; }
-        label { font-size: 0.8rem; font-weight: 600; color: #334155; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        label { font-size: 0.78rem; font-weight: 600; color: #334155; }
         
         select, input[type="number"] {
-            padding: 9px 12px;
+            padding: 8px 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             background-color: #ffffff;
             color: var(--text-main);
             outline: none;
@@ -91,15 +114,15 @@
         }
         input[type="range"] { flex: 1; accent-color: var(--primary); cursor: pointer; }
 
-        /* Botón principal */
+        /* Botones */
         button.btn-primary {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
         }
@@ -109,23 +132,23 @@
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 14px;
+            padding: 12px;
             box-shadow: var(--shadow);
         }
         .card-header {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
         }
-        .res-row { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 3px 0; color: var(--text-muted); }
+        .res-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 2px 0; color: var(--text-muted); }
         .val-highlight { font-weight: 700; color: var(--primary); }
 
         .formula-box {
             font-family: monospace;
-            font-size: 0.73rem;
+            font-size: 0.72rem;
             background: #f8fafc;
             padding: 6px 8px;
             border-radius: 6px;
@@ -137,12 +160,9 @@
         /* Mapa */
         #map { flex: 1; height: 100%; width: 100%; z-index: 1; }
 
-        /* Botón de toggle solo para móviles */
-        #mobile-toggle-btn {
-            display: none;
-        }
+        #mobile-toggle-btn { display: none; }
 
-        /* Toast / Notificación */
+        /* Toast */
         #toast {
             position: fixed;
             top: 16px;
@@ -150,13 +170,13 @@
             transform: translateX(-50%) translateY(-100px);
             background: #ffffff;
             color: var(--text-main);
-            padding: 12px 18px;
+            padding: 10px 16px;
             border-radius: 30px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
             border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             z-index: 9999;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -169,7 +189,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* ADAPTABILIDAD MÓVIL (MOBILE-FIRST POLISH) */
+        /* DISEÑO ADAPTATIVO MÓVIL (BOTTOM-SHEET PLEGABLE) */
         /* ------------------------------------------------------------- */
         @media (max-width: 768px) {
             #sidebar {
@@ -178,17 +198,24 @@
                 left: 0;
                 width: 100%;
                 min-width: 100%;
-                height: 60vh;
+                height: 70vh;
+                max-height: 80vh;
                 border-right: none;
                 border-top-left-radius: 20px;
                 border-top-right-radius: 20px;
-                box-shadow: 0 -6px 24px rgba(0,0,0,0.12);
+                box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
                 z-index: 2000;
-                padding: 16px 20px 24px 20px;
+                padding: 10px 16px 20px 16px;
+                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             }
 
+            /* Estado colapsado: Ocupa apenas ~65px de alto para dejar libre el 90% del mapa */
             #sidebar.collapsed {
-                transform: translateY(calc(100% - 60px));
+                transform: translateY(calc(100% - 65px));
+            }
+
+            .mobile-bar-summary {
+                display: flex;
             }
 
             #mobile-toggle-btn {
@@ -196,14 +223,14 @@
                 align-items: center;
                 justify-content: center;
                 width: 100%;
-                padding: 6px 0;
+                padding: 4px 0 8px 0;
                 background: transparent;
                 border: none;
                 cursor: pointer;
             }
 
             .handle-bar {
-                width: 40px;
+                width: 38px;
                 height: 5px;
                 background-color: #cbd5e1;
                 border-radius: 10px;
@@ -214,9 +241,8 @@
             }
 
             #toast {
-                top: 20px;
-                font-size: 0.8rem;
-                padding: 10px 16px;
+                top: 14px;
+                font-size: 0.78rem;
             }
         }
     </style>
@@ -224,28 +250,51 @@
 <body>
 
     <div id="app-container">
-        <!-- Toast Notificación (Z-Index Máximo) -->
+        <!-- Toast Notificación -->
         <div id="toast">
-            <span style="font-size: 1.2rem;">🐾</span>
+            <span style="font-size: 1.1rem;">🐾</span>
             <div>
-                <strong style="font-size: 0.85rem; color: #1e293b;">Huella Segura está contigo</strong>
-                <p style="font-size: 0.75rem; color: #64748b;">Mueve el mapa o ajusta el tiempo de búsqueda.</p>
+                <strong style="font-size: 0.82rem; color: #1e293b;">Huella Segura está contigo</strong>
+                <p style="font-size: 0.72rem; color: #64748b;">Toca la barra inferior para ajustar parámetros.</p>
             </div>
         </div>
 
-        <!-- Panel Lateral -->
-        <div id="sidebar">
-            <button id="mobile-toggle-btn" aria-label="Deslizar panel">
+        <!-- Panel Lateral / Bottom Sheet en Móviles -->
+        <div id="sidebar" class="collapsed">
+            <!-- Tirador / Manija para desplegar en móviles -->
+            <button id="mobile-toggle-btn" aria-label="Deslizar panel de configuración">
                 <div class="handle-bar"></div>
             </button>
 
-            <div class="brand">
+            <!-- Vista previa compacta en celular cuando está colapsado -->
+            <div class="mobile-bar-summary" id="mobile-summary">
+                <div class="brand" style="gap: 6px;">
+                    <span style="font-size: 1.1rem;">🐾</span>
+                    <strong style="font-size: 0.88rem;">Parámetros EDO</strong>
+                </div>
+                <div class="mobile-badge">
+                    <span>Radio RK4:</span>
+                    <strong id="mb-radio-val">1.44 km</strong>
+                    <span style="font-size: 0.7rem; margin-left: 2px;">▲</span>
+                </div>
+            </div>
+
+            <!-- Header Principal -->
+            <div class="brand" style="margin-top: 2px;">
                 <span class="brand-icon">🐾</span>
                 <div>
                     <h1>Huella Segura</h1>
                     <p class="subtitle">Engine EDO · La Paz, Bolivia</p>
                 </div>
             </div>
+
+            <!-- Botón Navegación Análisis Numérico -->
+            <a href="analisis.html" target="_blank" style="text-decoration: none;">
+                <button type="button" style="width: 100%; background-color: #0f172a; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px;"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    Ver Análisis Numérico y Gráficos
+                </button>
+            </a>
 
             <div class="form-group">
                 <label for="talla">Mascota / Talla</label>
@@ -280,16 +329,10 @@
                     <input type="number" id="tiempo-num" min="0.01" max="24.0" step="0.01" value="1.5" style="width: 65px; text-align: center;">
                 </div>
             </div>
-<!-- Botón para Abrir Pestaña de Análisis Numérico sin Emojis -->
-<a href="analisis.html" target="_blank" style="text-decoration: none;">
-    <button type="button" style="width: 100%; background-color: #0f172a; color: white; border: none; padding: 11px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-        Ver Análisis Numérico y Gráficos
-    </button>
-</a>
+
             <button id="btn-calcular" class="btn-primary">Recalcular Perímetro</button>
 
-            <!-- Card de Resultados Numéricos -->
+            <!-- Card Resultados -->
             <div class="card">
                 <div class="card-header">
                     <span>Resultados del Motor</span>
@@ -301,19 +344,19 @@
                 <div class="res-row"><span>Error Relativo RK4:</span> <span id="res-err-rk4" style="color: #16a34a; font-weight: 700;">0.00 %</span></div>
             </div>
 
-            <!-- Card de Fórmulas -->
+            <!-- Card Fórmulas -->
             <div class="card">
                 <div class="card-header">Fórmulas y Evaluación</div>
-                <div style="margin-bottom: 8px;">
-                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Analítica Exacta</span>
+                <div style="margin-bottom: 6px;">
+                    <span style="font-size: 0.72rem; font-weight: 600; color: #475569;">Analítica Exacta</span>
                     <div id="formula-analitica-eval" class="formula-box">r(t) = ...</div>
                 </div>
-                <div style="margin-bottom: 8px;">
-                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Heun (Predictor-Corrector)</span>
+                <div style="margin-bottom: 6px;">
+                    <span style="font-size: 0.72rem; font-weight: 600; color: #475569;">Heun (Predictor-Corrector)</span>
                     <div id="formula-heun-eval" class="formula-box" style="border-left-color: #ef4444;">r_ult = ...</div>
                 </div>
                 <div>
-                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Runge-Kutta (RK4)</span>
+                    <span style="font-size: 0.72rem; font-weight: 600; color: #475569;">Runge-Kutta (RK4)</span>
                     <div id="formula-rk4-eval" class="formula-box" style="border-left-color: #22c55e;">r_ult = ...</div>
                 </div>
             </div>
