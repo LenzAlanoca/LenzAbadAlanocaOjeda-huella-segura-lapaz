@@ -1,6 +1,7 @@
 #  Huella Segura La Paz — Engine de Perímetro EDO
 
-> **Desafío Individual de Métodos Numéricos**  
+> **Desafío Individual de Métodos Numéricos**
+>  **Author:** Lenz Abad Alanoca Ojeda 
 > **Área:** Ingeniería de Sistemas / Informática, Desarrollo de Software e Innovación  
 > **Fecha de Entrega:** 6 de noviembre de 2026  
 > **Ubicación de Aplicación:** La Paz, Bolivia 🇧🇴  
