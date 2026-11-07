@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huella Segura La Paz - Perímetro EDO</title>
+    
+    <!-- CSS de Leaflet (Mapa Interactivo) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { display: flex; height: 100vh; background-color: #f4f6f9; }
+        
+        /* Panel Lateral de Controles */
+        #sidebar {
+            width: 380px;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        h2 { color: #1e3a8a; font-size: 1.3rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+        .subtitle { font-size: 0.85rem; color: #64748b; margin-top: -10px; }
+
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 0.85rem; font-weight: 600; color: #334155; }
+        select, input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; }
+        
+        button {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #1d4ed8; }
+
+        /* Panel de Resultados Numéricos */
+        .results-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.85rem;
+        }
+        .results-card h3 { color: #0f172a; font-size: 0.95rem; margin-bottom: 6px; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .val-highlight { font-weight: bold; color: #2563eb; }
+
+        /* Contenedor del Mapa */
+        #map { flex: 1; height: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h2>Huella Segura La Paz</h2>
+        <p class="subtitle">Engine de Perímetro EDO (Métodos Numéricos)</p>
+
+        <div class="form-group">
+            <label for="talla">Talla / Especie de la Mascota:</label>
+            <select id="talla">
+                <option value="pequena">Pequeña (Pug, Poodle) - v0: 2.5 km/h</option>
+                <option value="mediana" selected>Mediana (Mestizo) - v0: 4.0 km/h</option>
+                <option value="grande">Grande (Pastor, Lab) - v0: 5.5 km/h</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="causa">Causa del Extravío (Estrés):</label>
+            <select id="causa">
+                <option value="1.0">Descuido / Extravío Normal</option>
+                <option value="1.3" selected>Susto por Petardos / Cohetes (+30% v0)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="zona">Zona / Pendiente de La Paz:</label>
+            <select id="zona">
+                <option value="10">Zona Plana / Centro (10° pendiente)</option>
+                <option value="25" selected>Laderas / Cotahuma / Villa Fátima (25° pendiente)</option>
+                <option value="35">Ladera Alta Pronunciada (35° pendiente)</option>
+            </select>
+        </div>
+
+       <div class="form-group">
+    <label for="tiempo">Tiempo Transcurrido (Horas):</label>
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="range" id="tiempo" min="0.1" max="6.0" step="0.1" value="1.5" style="flex: 1;">
+        <input type="number" id="tiempo-num" min="0.01" max="24.0" step="0.01" value="1.5" style="width: 75px; text-align: center;">
+    </div>
+</div>
+
+        <button id="btn-calcular">Calcular y Actualizar Perímetro</button>
+
+        <div class="results-card">
+            <h3>Resultados del Backend Numérico</h3>
+            <div class="res-row"><span>Solución Analítica:</span> <span id="res-analitico" class="val-highlight">0.00 km</span></div>
+            <div class="res-row"><span>Aproximación Heun (Ord 2):</span> <span id="res-heun" class="val-highlight">0.00 km</span></div>
+            <div class="res-row"><span>Aproximación RK4 (Ord 4):</span> <span id="res-rk4" class="val-highlight">0.00 km</span></div>
+            <div class="res-row"><span>Error Relativo RK4:</span> <span id="res-err-rk4" style="color: #16a34a; font-weight: bold;">0.00 %</span></div>
+        </div>
+
+        <!-- Nueva Card de Fórmulas y Dinámica de Variables en Tiempo Real -->
+<div class="results-card" style="margin-top: 15px; background: #ffffff; border-left: 4px solid #2563eb;">
+    <h3>Fórmulas y Variables en Tiempo Real</h3>
+    
+    <!-- 1. Solución Analítica -->
+    <div style="margin-top: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+        <strong style="color: #1e3a8a; font-size: 0.8rem;">1. Solución Analítica Exacta:</strong>
+        <div style="font-family: monospace; font-size: 0.75rem; color: #475569; margin-top: 2px;">
+            r(t) = [ (v₀·cosθ) / α ] · (1 - e⁻αᵗ) - k·t
+        </div>
+        <div id="formula-analitica-eval" style="font-family: monospace; font-size: 0.75rem; color: #2563eb; font-weight: bold; margin-top: 2px;">
+            r(t) = ...
+        </div>
+    </div>
+
+    <!-- 2. Método de Heun -->
+    <div style="margin-top: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+        <strong style="color: #1e3a8a; font-size: 0.8rem;">2. Heun (Orden 2 - Corrector):</strong>
+        <div style="font-family: monospace; font-size: 0.75rem; color: #475569; margin-top: 2px;">
+            rᵢ₊₁ = rᵢ + (h/2) · [ f(tᵢ, rᵢ) + f(tᵢ₊₁, r_pred) ]
+        </div>
+        <div id="formula-heun-eval" style="font-family: monospace; font-size: 0.75rem; color: #dc2626; font-weight: bold; margin-top: 2px;">
+            r_ult = ...
+        </div>
+    </div>
+
+    <!-- 3. Método RK4 -->
+    <div style="margin-top: 8px;">
+        <strong style="color: #1e3a8a; font-size: 0.8rem;">3. Runge-Kutta 4 (Orden 4):</strong>
+        <div style="font-family: monospace; font-size: 0.75rem; color: #475569; margin-top: 2px;">
+            rᵢ₊₁ = rᵢ + (h/6) · (k₁ + 2k₂ + 2k₃ + k₄)
+        </div>
+        <div id="formula-rk4-eval" style="font-family: monospace; font-size: 0.75rem; color: #16a34a; font-weight: bold; margin-top: 2px;">
+            r_ult = ...
+        </div>
+    </div>
+</div>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- JS de Leaflet (Mapa Interactivo) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Lógica de Métodos Numéricos -->
+    <script src="app.js"></script>
+</body>
+</html>
